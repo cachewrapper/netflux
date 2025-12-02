@@ -1,0 +1,4 @@
+name: "netflux"
+main: "org.cachewrapper.paper.NetfluxPaper"
+version: "1.0"
+api-version: "1.20"
