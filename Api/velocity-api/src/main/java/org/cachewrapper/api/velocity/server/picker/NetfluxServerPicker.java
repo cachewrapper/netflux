@@ -1,4 +1,4 @@
-package org.cachewrapper.api.paper.server.picker;
+package org.cachewrapper.api.velocity.server.picker;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
