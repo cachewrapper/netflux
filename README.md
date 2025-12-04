@@ -59,6 +59,17 @@ Netflux.get()
        .setFirstJoinPicker("lobby", RoundRobinPicker.class);
 ```
 
+### 📝 Paper
+
+- **netflux-paper** — main implementation for Paper/Spigot servers.  
+- **netflux-paper-api** — API for plugin development. Use `compileOnly` in your project:
+
+```gradle
+dependencies {
+    compileOnly("org.cachewrapper:netflux-paper-api:VERSION")
+}
+```
+
 ### 📝 Velocity
 
 - **netflux-velocity** — main implementation for Velocity proxy.  
@@ -68,3 +79,4 @@ Netflux.get()
 dependencies {
     compileOnly("org.cachewrapper:netflux-velocity-api:VERSION")
 }
+```
