@@ -58,3 +58,13 @@ Netflux.get()
        .getNetfluxServerManager()
        .setFirstJoinPicker("lobby", RoundRobinPicker.class);
 ```
+
+### 📝 Velocity
+
+- **netflux-velocity** — main implementation for Velocity proxy.  
+- **netflux-velocity-api** — API for plugin development. Use `compileOnly` in your project:
+
+```gradle
+dependencies {
+    compileOnly("org.cachewrapper:netflux-velocity-api:VERSION")
+}
