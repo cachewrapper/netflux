@@ -1,9 +1,16 @@
 package org.cachewrapper.network.controller.server.picker;
 
-import org.cachewrapper.network.controller.server.Server;
+import org.cachewrapper.network.controller.server.load.LoadedServer;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Predicate;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-public interface ServerPicker {
-    Server getServer(Predicate<Server> predicate);
+public abstract class ServerPicker {
+
+    public abstract Optional<LoadedServer> getServer(
+            @NotNull UUID playerUUID,
+            @NotNull List<LoadedServer> loadedServers
+    );
 }

@@ -16,13 +16,20 @@ import java.net.InetSocketAddress;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class ServerInstanceFacade {
 
-    private final ProxyServer proxyServer;
     private final LoadedServerTracker loadedServerTracker;
+    private final ProxyServer proxyServer;
 
-    public void create(@NotNull String identifier, @NotNull InetSocketAddress address) {
+    public void create(
+            @NotNull String identifier,
+            @NotNull String serverType,
+            @NotNull InetSocketAddress address,
+            int maxOnline
+    ) {
         var server = Server.builder()
                 .identifier(identifier)
+                .serverType(serverType)
                 .address(address)
+                .maxOnline(maxOnline)
                 .build();
 
         var loadedServer = new LoadedServer(server);
@@ -50,8 +57,8 @@ public class ServerInstanceFacade {
             return;
         }
 
-        loadedServer.setLastPingMs(System.currentTimeMillis());
-        loadedServerTracker.track(loadedServer);
+        var updatedLoadedServer = new LoadedServer(loadedServer.getServer());
+        loadedServerTracker.track(updatedLoadedServer);
     }
 
     public void remove(@NotNull String identifier) {

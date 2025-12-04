@@ -12,5 +12,8 @@ import java.net.InetSocketAddress;
 public class Server {
 
     private final String identifier;
+    private final String serverType;
     private final InetSocketAddress address;
+
+    private int maxOnline;
 }

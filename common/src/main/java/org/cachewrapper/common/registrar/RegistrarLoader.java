@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 
 @Singleton
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
@@ -35,16 +34,23 @@ public class RegistrarLoader {
                 .sorted(Comparator.comparingInt(registrar -> registrar.getPriority().ordinal()))
                 .toList();
 
-        var asyncFutures = orderedRegistrars.stream()
+        orderedRegistrars.stream()
                 .filter(registrar -> registrar instanceof RegistrarAsync)
-                .map(registrar -> ((RegistrarAsync) registrar).register())
-                .toArray(CompletableFuture[]::new);
+                .forEach(registrar -> {
+                    var registrarAsync = (RegistrarAsync) registrar;
+                    registrarAsync.register();
+                });
 
-        CompletableFuture<Void> registrarsAsyncChain = CompletableFuture.allOf(asyncFutures);
-        registrarsAsyncChain.thenRun(() -> orderedRegistrars.stream()
+        orderedRegistrars.stream()
                 .filter(registrar -> registrar instanceof RegistrarSync)
-                .forEach(registrar -> ((RegistrarSync) registrar).register())
-        );
+                .forEach(registrar -> {
+                    var registrarSync = (RegistrarSync) registrar;
+                    try {
+                        registrarSync.register();
+                    } catch (Exception exception) {
+                        throw new RuntimeException(exception);
+                    }
+                });
     }
 
 }

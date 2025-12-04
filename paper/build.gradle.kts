@@ -23,6 +23,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.42")
 
     implementation(project(":network-controller"))
+    implementation(project(":Api:paper-api"))
 }
 
 tasks.shadowJar {

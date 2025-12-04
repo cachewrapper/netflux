@@ -24,7 +24,10 @@ public interface Instantiator<T> {
     @SuppressWarnings("unchecked")
     default T get() {
         T instantiatedObject = (T) INSTANTIATED_OBJECTS.get(getClass());
-        Preconditions.checkNotNull(instantiatedObject, "Instantiated Object is null for class %s".formatted(getClass()));
+        if (instantiatedObject == null) {
+            instantiate();
+            return this.get();
+        }
 
         return instantiatedObject;
     }

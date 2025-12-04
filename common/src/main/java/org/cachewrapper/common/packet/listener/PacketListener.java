@@ -1,12 +1,19 @@
 package org.cachewrapper.common.packet.listener;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.cachewrapper.common.gson.GsonClassTypeAdapter;
+import org.cachewrapper.common.gson.InetSocketAddressAdapter;
 import org.jetbrains.annotations.NotNull;
-import redis.clients.jedis.JedisPubSub;
 
-public abstract class PacketListener<T> extends JedisPubSub {
+import java.net.InetSocketAddress;
 
-    private final Gson GSON = new Gson();
+public abstract class PacketListener<T> {
+
+    private final Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(Class.class, new GsonClassTypeAdapter())
+            .registerTypeAdapter(InetSocketAddress.class, new InetSocketAddressAdapter())
+            .create();
 
     @NotNull
     public abstract Class<T> getPacketType();
@@ -16,10 +23,7 @@ public abstract class PacketListener<T> extends JedisPubSub {
 
     public abstract void onPacket(@NotNull T packet);
 
-    @Override
-    public final void onMessage(@NotNull String channel, @NotNull String message) {
-        if (!channel.equals(getChannel())) return;
-
+    public void onPacket(@NotNull String message) {
         T parsedPacket = GSON.fromJson(message, getPacketType());
         onPacket(parsedPacket);
     }

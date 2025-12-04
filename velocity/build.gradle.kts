@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("com.gradleup.shadow") version "9.2.2"
 }
 
 group = "org.cachewrapper"
@@ -18,8 +19,10 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.42")
 
     implementation(project(":network-controller"))
+    implementation(project(":Api:velocity-api"))
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks.shadowJar {
+    archiveFileName.set("netflux-velocity.jar")
+    archiveClassifier.set("")
 }

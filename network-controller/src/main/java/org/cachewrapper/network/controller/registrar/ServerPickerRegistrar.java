@@ -16,6 +16,7 @@ public class ServerPickerRegistrar implements RegistrarSync {
 
     private static final String LOOKUP_PACKAGE = "org.cachewrapper.network.controller";
 
+    private final ServerPickerRegistry serverPickerRegistry;
     private final Injector injector;
 
     @Override
@@ -25,7 +26,7 @@ public class ServerPickerRegistrar implements RegistrarSync {
 
         serverPickerClasses.forEach(serverPickerClass -> {
             var serverPicker = injector.getInstance(serverPickerClass);
-            ServerPickerRegistry.register(serverPicker);
+            serverPickerRegistry.register(serverPicker);
         });
     }
 

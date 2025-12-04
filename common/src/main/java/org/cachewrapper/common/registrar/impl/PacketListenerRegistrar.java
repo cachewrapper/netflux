@@ -11,10 +11,6 @@ import org.cachewrapper.common.registrar.RegistrarPriority;
 import org.cachewrapper.common.registrar.type.RegistrarSync;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
-import redis.clients.jedis.JedisPool;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Slf4j
 @Singleton
@@ -22,7 +18,6 @@ import java.util.concurrent.Executors;
 public class PacketListenerRegistrar implements RegistrarSync {
 
     private static final String LOOKUP_PACKAGE = "org.cachewrapper";
-    private static final ExecutorService PACKET_EXECUTOR = Executors.newVirtualThreadPerTaskExecutor();
 
     private final RedisInstantiator redisInstantiator;
     private final Injector injector;
@@ -35,19 +30,18 @@ public class PacketListenerRegistrar implements RegistrarSync {
                 .map(injector::getInstance)
                 .toList();
 
-        var jedisPool = redisInstantiator.get();
-        packetListeners.forEach(listener -> subscribePacketListener(jedisPool, listener));
+        packetListeners.forEach(this::subscribePacketListener);
     }
 
     private void subscribePacketListener(
-            @NotNull JedisPool jedisPool,
             @NotNull PacketListener<?> packetListener
     ) {
-        PACKET_EXECUTOR.submit(() -> {
-            try (var jedis = jedisPool.getResource()) {
-                jedis.subscribe(packetListener, packetListener.getChannel());
-            }
-        });
+        var channel = packetListener.getChannel();
+
+        var redissonClient = redisInstantiator.get();
+        var redisTopic = redissonClient.getTopic(channel);
+
+        redisTopic.addListener(String.class, (_, message) -> packetListener.onPacket(message));
     }
 
     @Override
