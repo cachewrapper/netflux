@@ -1,7 +1,6 @@
 package org.cachewrapper.network.controller.server.picker.registry;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import org.cachewrapper.network.controller.server.picker.ServerPicker;

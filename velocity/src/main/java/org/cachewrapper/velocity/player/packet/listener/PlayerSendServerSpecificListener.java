@@ -2,7 +2,6 @@ package org.cachewrapper.velocity.player.packet.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.velocitypowered.api.proxy.ProxyServer;
 import lombok.RequiredArgsConstructor;
 import org.cachewrapper.common.packet.listener.PacketListener;
 import org.cachewrapper.network.controller.packet.player.PlayerSendServerPacket;

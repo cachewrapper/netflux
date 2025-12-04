@@ -12,7 +12,6 @@ import org.cachewrapper.common.insatntiator.impl.RedisInstantiator;
 import org.cachewrapper.common.packet.sender.PacketSender;
 import org.cachewrapper.common.packet.sender.data.PacketSendingData;
 import org.jetbrains.annotations.NotNull;
-import org.redisson.api.RTopic;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.CompletableFuture;

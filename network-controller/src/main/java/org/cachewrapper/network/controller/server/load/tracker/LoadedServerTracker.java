@@ -1,6 +1,5 @@
 package org.cachewrapper.network.controller.server.load.tracker;
 
-import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.cachewrapper.common.insatntiator.impl.RedisInstantiator;
@@ -8,8 +7,6 @@ import org.cachewrapper.network.controller.server.load.LoadedServer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
-import org.redisson.RedissonMap;
-import org.redisson.RedissonMapCache;
 import org.redisson.api.RMap;
 
 import java.util.ArrayList;

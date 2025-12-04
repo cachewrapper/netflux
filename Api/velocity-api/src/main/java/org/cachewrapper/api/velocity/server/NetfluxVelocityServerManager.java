@@ -8,7 +8,6 @@ import org.cachewrapper.api.velocity.server.picker.FirstJoinPicker;
 import org.cachewrapper.network.controller.server.load.tracker.LoadedServerTracker;
 import org.cachewrapper.network.controller.server.picker.ServerPicker;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 @Getter
 @Singleton

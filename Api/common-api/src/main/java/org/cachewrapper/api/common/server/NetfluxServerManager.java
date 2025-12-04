@@ -1,7 +1,5 @@
 package org.cachewrapper.api.common.server;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import org.cachewrapper.network.controller.server.load.LoadedServer;
 import org.cachewrapper.network.controller.server.load.tracker.LoadedServerTracker;
