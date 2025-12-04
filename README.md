@@ -47,6 +47,7 @@ public class LeastServerPicker extends ServerPicker {
                 .min(Comparator.comparingInt(LoadedServer::getOnlinePlayers));
     }
 }
+```
 
 ### 2. First Join Configuration
 
@@ -56,3 +57,4 @@ public class LeastServerPicker extends ServerPicker {
 Netflux.get()
        .getNetfluxServerManager()
        .setFirstJoinPicker("lobby", RoundRobinPicker.class);
+```
