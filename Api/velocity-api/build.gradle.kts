@@ -20,6 +20,6 @@ dependencies {
 }
 
 tasks.shadowJar {
-    archiveFileName.set("netflux-velocity-api.jar")
+    archiveFileName.set("netflux-velocity-api-$version.jar")
     archiveClassifier.set("")
 }

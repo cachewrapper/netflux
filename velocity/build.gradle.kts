@@ -23,6 +23,6 @@ dependencies {
 }
 
 tasks.shadowJar {
-    archiveFileName.set("netflux-velocity.jar")
+    archiveFileName.set("netflux-velocity-$version.jar")
     archiveClassifier.set("")
 }

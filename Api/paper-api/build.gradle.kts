@@ -20,6 +20,6 @@ dependencies {
 }
 
 tasks.shadowJar {
-    archiveFileName.set("netflux-paper-api.jar")
+    archiveFileName.set("netflux-paper-api-$version.jar")
     archiveClassifier.set("")
 }
