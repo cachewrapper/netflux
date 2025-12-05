@@ -1,49 +1,47 @@
+import java.util.Locale
+
 plugins {
     java
     `maven-publish`
     id("com.gradleup.shadow") version "9.2.2"
 }
 
-allprojects {
-    group = "cachewrapper.netflux"
-    version = "1.1"
+group = "cachewrapper.netflux"
+version = "1.1"
 
-    repositories {
-        mavenCentral()
+repositories {
+    mavenCentral()
+    maven("https://jitpack.io")
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
 }
 
-subprojects {
-    val shadowModules = listOf(
-        "paper-api",
-        "velocity-api"
-    )
+val platform: String? by project
 
-    if (project.name in shadowModules) {
-        apply(plugin = "java")
-        apply(plugin = "maven-publish")
-        apply(plugin = "com.gradleup.shadow")
+val modulesToBuild = when (platform?.lowercase()) {
+    "velocity" -> listOf("velocity-api")
+    "paper" -> listOf("paper-api")
+    else -> listOf("paper-api", "velocity-api")
+}
 
-        java {
-            toolchain {
-                languageVersion.set(JavaLanguageVersion.of(25))
+modulesToBuild.forEach { mod ->
+    val shadowTask = tasks.register<Jar>("shadow${mod.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}") {
+        archiveBaseName.set(mod)
+        archiveClassifier.set("all")
+        from(sourceSets.main.get().output)
+    }
+
+    publishing {
+        publications {
+            register<MavenPublication>(mod) {
+                artifact(shadowTask.get())
+                artifactId = mod
             }
         }
-
-        tasks.shadowJar {
-            archiveBaseName.set(project.name)
-            archiveClassifier.set("all")
-        }
-
-        publishing {
-            publications {
-                register<MavenPublication>("gpr") {
-                    artifact(tasks.named("shadowJar").get())
-                    artifactId = project.name.lowercase()
-                }
-            }
-        }
-
         repositories {
             maven {
                 name = "GitHubPackages"
@@ -54,5 +52,20 @@ subprojects {
                 }
             }
         }
+    }
+}
+
+dependencies {
+    compileOnly("org.projectlombok:lombok:1.18.42")
+    annotationProcessor("org.projectlombok:lombok:1.18.42")
+
+    if (modulesToBuild.contains("velocity-api")) {
+        compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+        annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+        compileOnly("com.github.cachewrapper.netflux:velocity-api:1.0")
+    }
+
+    if (modulesToBuild.contains("paper-api")) {
+        compileOnly("com.github.cachewrapper.netflux:paper-api:1.0")
     }
 }
