@@ -1,6 +1,7 @@
 plugins {
     java
     `maven-publish`
+    id("com.gradleup.shadow") version "9.2.2"
 }
 
 allprojects {
@@ -13,26 +14,38 @@ allprojects {
 }
 
 subprojects {
-    apply(plugin = "java")
-    apply(plugin = "maven-publish")
+    val shadowModules = listOf(
+        "paper",
+        "paper-api",
+        "velocity",
+        "velocity-api"
+    )
 
-    java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(25))
-        }
-    }
+    if (project.name in shadowModules) {
+        apply(plugin = "java")
+        apply(plugin = "maven-publish")
+        apply(plugin = "com.gradleup.shadow")
 
-    tasks.withType<Jar> {
-        archiveBaseName.set(project.name)
-    }
-
-    publishing {
-        publications {
-            register<MavenPublication>("gpr") {
-                from(components["java"])
-                artifactId = project.name.lowercase()
+        java {
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(25))
             }
         }
+
+        tasks.shadowJar {
+            archiveBaseName.set(project.name)
+            archiveClassifier.set("all")
+        }
+
+        publishing {
+            publications {
+                register<MavenPublication>("gpr") {
+                    artifact(tasks.named("shadowJar").get())
+                    artifactId = project.name.lowercase()
+                }
+            }
+        }
+
         repositories {
             maven {
                 name = "GitHubPackages"
