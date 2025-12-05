@@ -15,9 +15,7 @@ allprojects {
 
 subprojects {
     val shadowModules = listOf(
-        "paper",
         "paper-api",
-        "velocity",
         "velocity-api"
     )
 
