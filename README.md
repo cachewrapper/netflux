@@ -1,7 +1,6 @@
 # 🌐 NetFlux
 
 [![Java](https://img.shields.io/badge/java-25-blue)](https://www.java.com/)
-[![Build](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/cachewrapper/netflux/actions)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 NetFlux is a lightweight networking framework for Minecraft servers that allows Paper/Spigot servers to automatically connect to a Velocity proxy and manage player routing via Redis.
