@@ -59,6 +59,24 @@ Netflux.get()
        .setFirstJoinPicker("lobby", RoundRobinPicker.class);
 ```
 
+### 3. Connecting a Player to a Server
+
+* Using a custom ServerPicker
+```
+UUID playerUUID = player.getUniqueId();
+Netflux.get()
+       .getPlayerNetworkGateway()
+       .connectPlayer(playerUUID, "lobby", RoundRobinPicker.class);
+```
+
+* Directly to a specific server
+```
+UUID playerUUID = player.getUniqueId();
+Netflux.get()
+       .getPlayerNetworkGateway()
+       .connectPlayer(playerUUID, "server_identifier");
+```
+
 ### 📝 Paper
 
 - **netflux-paper** — main implementation for Paper/Spigot servers.  
