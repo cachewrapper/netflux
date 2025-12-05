@@ -66,7 +66,7 @@ Netflux.get()
 
 ```gradle
 dependencies {
-    compileOnly("org.cachewrapper:netflux-paper-api:VERSION")
+    compileOnly("com.github.cachewrapper.netflux:paper-api:VERSION")
 }
 ```
 
@@ -77,6 +77,6 @@ dependencies {
 
 ```gradle
 dependencies {
-    compileOnly("org.cachewrapper:netflux-velocity-api:VERSION")
+    compileOnly("com.github.cachewrapper.netflux:velocity-api:VERSION")
 }
 ```
